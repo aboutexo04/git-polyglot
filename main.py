@@ -9,7 +9,7 @@ from github import Github
 TARGET_LANGS = {
     'ko': 'Korean',
     'ja': 'Japanese',
-    'zh': 'Simplified Chinese'
+    'zh-CN': 'Simplified Chinese'
 }
 
 def get_ai_client(api_key):
