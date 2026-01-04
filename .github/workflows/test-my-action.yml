@@ -31,7 +31,7 @@ jobs:
           target_languages: 'ko'
           source_file: 'README.md'
           # 무료 모델인 제미나이 2.0 플래시 사용 (원하면 claude-3-5-sonnet 등으로 변경 가능)
-          model_name: 'google/gemini-2.0-flash-exp:free'
+          model_name: 'meta-llama/llama-3.1-8b-instruct:free'
 
       # 결과 확인
       - name: Cat Translated Files
