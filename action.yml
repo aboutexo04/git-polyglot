@@ -1,0 +1,27 @@
+name: 'GitPolyglot - AI Readme Translator'
+description: 'Translate your README.md into KR, EN, JP, CN with developer-context awareness.'
+author: 'Sunny'
+branding:
+  icon: 'globe'  # 마켓에 보일 아이콘
+  color: 'blue'
+
+inputs: # 사용자가 입력해야 할 값들
+  openai_api_key:
+    description: 'OpenAI API Key'
+    required: true
+  target_languages:
+    description: 'Target languages (e.g., "ko,ja,zh")'
+    required: false
+    default: 'en,ja'
+  source_file:
+    description: 'File to translate'
+    required: false
+    default: 'README.md'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.openai_api_key }}
+    - ${{ inputs.target_languages }}
+    - ${{ inputs.source_file }}
