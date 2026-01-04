@@ -4,7 +4,7 @@ This is a test to verify if AI models work correctly via OpenRouter.
 ## Features
 - Fast translation
 - Developer friendly
-- Maintains original code structure
+- Maintains original code structure.
 
 ---
 ## 🧪 Code Protection Test

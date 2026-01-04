@@ -21,8 +21,8 @@ jobs:
           openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}
           target_languages: 'ko'
           source_file: 'README.md'
-          # 👇 [변경] 한국어 잘하고 눈치 빠른 'Qwen 2 7B (무료)' 적용
-          model_name: 'qwen/qwen-2-7b-instruct:free' 
+          # 👇 [변경] Meta Llama 3.3 70B (다국어 지원 우수)
+          model_name: 'meta-llama/llama-3.3-70b-instruct:free' 
 
       - name: Commit and Push changes
         run: |
