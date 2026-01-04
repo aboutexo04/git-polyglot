@@ -6,8 +6,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
-    # 🔑 [필수] 403 에러 해결을 위한 출입증 발급
+
     permissions:
       contents: write
 
@@ -15,34 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run GitPolyglot
-        uses: ./ 
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}
-          target_languages: 'ko'
-          source_file: 'README.md'
-          # 👇 [변경] Meta Llama 3.3 70B (다국어 지원 우수)
-          model_name: 'meta-llama/llama-3.3-70b-instruct:free' 
+          python-version: '3.9'
 
-      - name: Commit and Push changes
-        run: |
-          git config --global user.name "GitPolyglot Bot"
-          git config --global user.email "bot@gitpolyglot.com"
-          
-          # 파일 목록 확인
-          ls -al 
-          
-          # 번역된 파일 추가
-          git add README.ko.md
-          
-          # 커밋 & 푸시
-          git commit -m "Auto-translated README by Qwen" || echo "No changes to commit"
-          git push
       - name: Run GitPolyglot
-        # 파이썬 스크립트를 직접 실행하는 방식으로 변경 (가장 확실함)
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          MODEL_NAME: 'qwen/qwen-2-7b-instruct:free'
+          MODEL_NAME: 'meta-llama/llama-3.3-70b-instruct:free'
         run: |
           pip install -r requirements.txt
           python main.py README.md
@@ -51,9 +31,9 @@ jobs:
         run: |
           git config --global user.name "GitPolyglot Bot"
           git config --global user.email "bot@gitpolyglot.com"
-          
-          # 만들어진 모든 번역 파일 추가 (*.ko.md, *.ja.md, *.zh.md)
+
+          # 번역된 파일들 추가 (ko, ja, zh)
           git add README.*.md
-          
-          git commit -m "Auto-translated README (KO, JA, ZH)" || echo "No changes"
+
+          git commit -m "Auto-translated README (KO, JA, ZH)" || echo "No changes to commit"
           git push
