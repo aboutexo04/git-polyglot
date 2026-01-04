@@ -38,3 +38,22 @@ jobs:
           # 커밋 & 푸시
           git commit -m "Auto-translated README by Qwen" || echo "No changes to commit"
           git push
+      - name: Run GitPolyglot
+        # 파이썬 스크립트를 직접 실행하는 방식으로 변경 (가장 확실함)
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          MODEL_NAME: 'qwen/qwen-2-7b-instruct:free'
+        run: |
+          pip install -r requirements.txt
+          python main.py README.md
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitPolyglot Bot"
+          git config --global user.email "bot@gitpolyglot.com"
+          
+          # 만들어진 모든 번역 파일 추가 (*.ko.md, *.ja.md, *.zh.md)
+          git add README.*.md
+          
+          git commit -m "Auto-translated README (KO, JA, ZH)" || echo "No changes"
+          git push
