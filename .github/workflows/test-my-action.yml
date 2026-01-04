@@ -1,0 +1,40 @@
+name: Test GitPolyglot Manually
+
+on: 
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test-translation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 테스트를 위해 가짜 README.md 파일을 만듭니다
+      - name: Create dummy README
+        run: |
+          echo "# Hello OpenRouter Project" > README.md
+          echo "This is a test to verify if Gemini 2.0 Flash works via OpenRouter." >> README.md
+          echo "## Features" >> README.md
+          echo "- Fast translation" >> README.md
+          echo "- Developer friendly" >> README.md
+
+      # 수정한 GitPolyglot 액션을 실행합니다
+      - name: Run GitPolyglot
+        uses: ./ 
+        with:
+          # 아까 등록한 Secret을 여기서 불러옵니다
+          openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          target_languages: 'ko'
+          source_file: 'README.md'
+          # 무료 모델인 제미나이 2.0 플래시 사용 (원하면 claude-3-5-sonnet 등으로 변경 가능)
+          model_name: 'google/gemini-2.0-flash-exp:free'
+
+      # 결과 확인
+      - name: Cat Translated Files
+        run: |
+          echo "=== KOREAN TRANSLATION RESULT ==="
+          cat README.ko.md

@@ -1,14 +1,18 @@
 name: 'GitPolyglot - AI Readme Translator'
-description: 'Translate your README.md into KR, EN, JP, CN with developer-context awareness.'
-author: 'Sunny'
+description: 'Translate README via OpenRouter (Gemini, Claude, Llama, etc.)'
+author: 'YourName'
 branding:
-  icon: 'globe'  # 마켓에 보일 아이콘
+  icon: 'globe'
   color: 'blue'
 
-inputs: # 사용자가 입력해야 할 값들
-  openai_api_key:
-    description: 'OpenAI API Key'
+inputs:
+  openrouter_api_key:  # 이름 변경
+    description: 'OpenRouter API Key'
     required: true
+  model_name:          # 모델 선택 기능 추가
+    description: 'Model ID from OpenRouter (e.g., google/gemini-2.0-flash-exp:free)'
+    required: false
+    default: 'google/gemini-2.0-flash-exp:free' # 현재 무료이고 성능 좋은 모델 추천
   target_languages:
     description: 'Target languages (e.g., "ko,ja,zh")'
     required: false
@@ -22,6 +26,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.openai_api_key }}
+    - ${{ inputs.openrouter_api_key }}
     - ${{ inputs.target_languages }}
     - ${{ inputs.source_file }}
+    - ${{ inputs.model_name }} # 파이썬으로 넘겨줄 인자 추가
