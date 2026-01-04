@@ -31,7 +31,7 @@ jobs:
           target_languages: 'ko'
           source_file: 'README.md'
           # 무료 모델인 제미나이 2.0 플래시 사용 (원하면 claude-3-5-sonnet 등으로 변경 가능)
-          model_name: 'meta-llama/llama-3.3-70b-instruct:free'
+          model_name: 'meta-llama/llama-3.1-8b-instruct:free'
       
       # (수정) 👇 이렇게 바꾸세요
       - name: Commit and Push changes
@@ -43,10 +43,4 @@ jobs:
           git add README.ko.md
           
           git commit -m "Auto-translated README" || echo "No changes to commit"
-          git push
-
-          # 변경사항이 있을 때만 커밋하기 (에러 방지)
-          git commit -m "Auto-translated README by GitPolyglot" || echo "No changes to commit"
-          
-          # GitHub에 밀어넣기
           git push
