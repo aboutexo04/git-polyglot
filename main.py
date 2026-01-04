@@ -24,16 +24,13 @@ def translate_content(client, text, target_lang, model_name):
 
     # [스마트 감지 프롬프트]
     # 소스 언어를 자동 감지하고, 타겟 언어와 같으면 번역하지 말라고 지시합니다.
-    system_prompt = f"""
-    You are a professional technical translator.
-    Task: Translate the input text into **{target_lang}**.
-    
-    RULES:
-    1. Detect the source language automatically.
-    2. If the source text is ALREADY in {target_lang}, return only the word "SKIP".
-    3. Keep code blocks (```...```) and technical terms (English) intact.
-    4. Do not add explanations. Just output the translation.
-    """
+    system_prompt = f"""You are a translator. Translate the input into {target_lang}.
+
+RULES:
+- Output ONLY the translated text. Nothing else.
+- Do NOT add phrases like "Here is the translation" or "The source language is...".
+- If already in {target_lang}, output only: SKIP
+- Keep code blocks and technical terms intact."""
 
     try:
         response = client.chat.completions.create(
