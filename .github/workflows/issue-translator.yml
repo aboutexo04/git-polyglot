@@ -1,0 +1,41 @@
+name: Auto Issue Translator
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  translate_issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write      # 댓글 달기 권한
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Translator
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODEL_NAME: 'meta-llama/llama-3.3-70b-instruct:free'
+        run: |
+          # 이슈 번호나 PR 번호를 파이썬에게 전달
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            NUMBER="${{ github.event.pull_request.number }}"
+          else
+            NUMBER="${{ github.event.issue.number }}"
+          fi
+          
+          echo "Processing Issue/PR #$NUMBER"
+          python main.py "$NUMBER"
