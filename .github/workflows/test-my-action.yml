@@ -38,3 +38,17 @@ jobs:
         run: |
           echo "=== KOREAN TRANSLATION RESULT ==="
           cat README.ko.md
+      # 4. 변경된 파일(번역본)을 저장소에 올리기
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitPolyglot Bot"
+          git config --global user.email "bot@gitpolyglot.com"
+          
+          # 새로 생긴 파일들(md)을 다 담기
+          git add *.md
+          
+          # 변경사항이 있을 때만 커밋하기 (에러 방지)
+          git commit -m "Auto-translated README by GitPolyglot" || echo "No changes to commit"
+          
+          # GitHub에 밀어넣기
+          git push
