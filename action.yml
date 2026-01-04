@@ -1,6 +1,6 @@
 name: 'GitPolyglot - AI Readme Translator'
 description: 'Translate README via OpenRouter (Gemini, Claude, Llama, etc.)'
-author: 'YourName'
+author: 'aboutexo04'
 branding:
   icon: 'globe'
   color: 'blue'
