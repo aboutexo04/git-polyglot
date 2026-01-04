@@ -30,22 +30,21 @@ jobs:
           openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}
           target_languages: 'ko'
           source_file: 'README.md'
-          model_name: 'meta-llama/llama-3.1-8b-instruct:free'
-
-      # 결과 확인
-      - name: Cat Translated Files
-        run: |
-          echo "=== KOREAN TRANSLATION RESULT ==="
-          cat README.ko.md
-      # 4. 변경된 파일(번역본)을 저장소에 올리기
+          # 무료 모델인 제미나이 2.0 플래시 사용 (원하면 claude-3-5-sonnet 등으로 변경 가능)
+          model_name: 'meta-llama/llama-3.3-70b-instruct:free'
+      
+      # (수정) 👇 이렇게 바꾸세요
       - name: Commit and Push changes
         run: |
           git config --global user.name "GitPolyglot Bot"
           git config --global user.email "bot@gitpolyglot.com"
           
-          # 새로 생긴 파일들(md)을 다 담기
-          git add *.md
+          # 안전장치: 원본은 건드리지 말고 번역된 파일만 추가
+          git add README.ko.md
           
+          git commit -m "Auto-translated README" || echo "No changes to commit"
+          git push
+
           # 변경사항이 있을 때만 커밋하기 (에러 방지)
           git commit -m "Auto-translated README by GitPolyglot" || echo "No changes to commit"
           
