@@ -1,9 +1,4 @@
 # Hello OpenRouter Project
-This is a test to verify if llama 3.1 works via OpenRouter.
-## Features
-- Fast translation
-- Developer friendly
-# Hello OpenRouter Project
 This is a test to verify if AI models work correctly via OpenRouter.
 
 ## Features
